@@ -1,0 +1,19 @@
+spring:
+  thymeleaf:
+    mode: HTML5
+    suffix: .html
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.80.128:3306/miaosha?characterEncoding=utf-8&useSSL=false&useUnicode=true
+    username: root
+    password: 123456
+#    type: com.alibaba.druid.pool.DruidDataSource
+
+
+mybatis:
+    type-aliases-package: com.example.xuanke.domain
+    configuration:
+        map-underscore-to-camel-case: true
+        default-fetch-size: 100
+        default-statement-timeout: 300
+    mapper-locations: classpath:mappers/*.xml
