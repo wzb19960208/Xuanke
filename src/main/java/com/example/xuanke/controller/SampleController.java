@@ -24,29 +24,22 @@ public class SampleController {
     }
 
 
-    @RequestMapping(value = "/db/getOne")
-    @ResponseBody
-    public Result dbGetOne(){
-        User user = userService.getUserById(1);
-        return Result.success(user);
-    }
-
     @RequestMapping(value = "/db/getAll")
     @ResponseBody
     public Result dbGetAll(){
         return Result.success(userService.getAllUser());
     }
 
-    @RequestMapping(value = "/db/insert")
-    @ResponseBody
-    public Result dbInsert(){
-        boolean b = userService.insertTwo();
-        if(b){
-            return Result.success(null);
-        }else {
-            return Result.fail(1,"插入两个user失败");
-        }
-    }
+//    @RequestMapping(value = "/db/insert")
+//    @ResponseBody
+//    public Result dbInsert(){
+//        boolean b = userService.insertTwo();
+//        if(b){
+//            return Result.success(null);
+//        }else {
+//            return Result.fail(1,"插入两个user失败");
+//        }
+//    }
 
 
 }

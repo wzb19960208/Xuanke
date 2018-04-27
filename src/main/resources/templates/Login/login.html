@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>登录</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <!-- jquery -->
+    <script type="text/javascript" th:src="@{/js/jquery.min.js}"></script>
+    <!-- jquery-validator -->
+    <script type="text/javascript" th:src="@{/jquery-validation/jquery.validate.min.js}"></script>
+    <!-- layer -->
+    <script type="text/javascript" th:src="@{/layer/layer.js}"></script>
+    <!-- common.js -->
+    <script type="text/javascript" th:src="@{/js/common.js}"></script>
+
+    <style type="text/css">
+        *{
+            margin:0;
+            padding: 0;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<form name="loginForm" id="loginForm" method="post">
+
+    <h2>用户登录</h2>
+
+    <input id="userId" name = "userId" class="form-control" type="text" placeholder="学号" required="true"  minlength="6" maxlength="6" />
+    <br>
+    <input id="password" name="password" class="form-control" type="password"  placeholder="密码" required="true" minlength="6" maxlength="16" />
+    <br>
+    <button class="btn btn-primary btn-block" type="reset" onclick="reset()">重置</button>
+    <button class="btn btn-primary btn-block" type="submit" onclick="login()">登录</button>
+
+</form>
+</body>
+
+<script>
+    function login(){
+
+        // 表单验证
+        //必须表单验证之后，layer等东西才会生效，就是那么玄学
+        $("#loginForm").validate({
+            submitHandler:function(){
+                doLogin();
+            }
+        });
+
+    }
+    function doLogin(){
+
+        //这样就不会自动关闭了
+        layer.msg("登陆中",{time:50000000});
+        console.log("登陆中");
+
+
+        //必须用JSON通信
+        user = new Object();
+        user.userId = $("#userId").val();
+        user.password = $("#password").val();
+
+        json_data = JSON.stringify(user);
+
+        //console出错会导致前端有问题，而且页面刷新一下就看不见了，很迷
+        console.log(json_data);
+
+        $.ajax({
+            url: "/login/do_login",
+            type: "POST",
+            contentType: "application/json;charset=utf-8", //这个是发送信息至服务器时内容编码类型
+            dataType: "json",
+            data:json_data,
+            success:function(data){
+                layer.closeAll();
+                console.log(data);
+                if(data.code == 0){
+                    layer.msg("成功");
+                    window.location.href="/course/list";
+                }else{
+                    layer.msg(data.msg);
+                }
+            },
+            error:function(){
+                layer.closeAll();
+                layer.msg("请求没有发送成功");
+                //console.log(data);
+            }
+        });
+    }
+</script>
+</html>

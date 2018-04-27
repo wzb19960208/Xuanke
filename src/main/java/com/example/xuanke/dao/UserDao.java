@@ -13,12 +13,11 @@ import java.util.List;
 @Mapper
 public interface UserDao {
 
-    @Select("select * from t_user where user_id = #{id}")
-    User getUserById(@Param("id") int id);
+    @Select("select * from t_user where user_id = #{userId}")
+    User getUserByUserId(@Param("userId") String userId);
 
     @Select("select * from t_user")
     List<User> getAllUser();
 
-    @Insert("insert into t_user(user_id,user_name) values(#{userId},#{userName})")
-    int insert(User user);
+
 }
